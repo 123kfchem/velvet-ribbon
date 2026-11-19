@@ -11,6 +11,12 @@ npm run dev
 
 Create a production build with `npm run build`, then serve the `dist` directory. `npm run preview` previews that build locally.
 
+## Maintenance mode
+
+The site currently opens in maintenance mode. Set `VITE_MAINTENANCE_MODE=true` in `.env` to show the maintenance page, or set it to `false` to show the regular site. Restart the dev server after changing `.env`; for deployment, set the same variable in your hosting provider's build environment and rebuild. `.env.example` shows the expected setting.
+
+Vite embeds `VITE_` variables in the client-side JavaScript at build time, so this setting is public configuration, not a secret or security control. Never put credentials or other secrets in a `VITE_` variable. This is a static React site, so the maintenance screen is served with the host's normal HTTP status; configure a host-level maintenance response if you need visitors to receive HTTP 503.
+
 ## Connect the official accounts
 
 Edit `public/social-links.json`. The three requested placeholders are preserved exactly until the brand supplies its details.

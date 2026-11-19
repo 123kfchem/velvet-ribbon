@@ -5,6 +5,9 @@ import Header from "./components/Header";
 import Dialog from "./components/Dialog";
 import { platformNames, type Platform } from "./lib/social";
 import { collections, type Collection } from "./lib/collections";
+import MaintenancePage from "./components/MaintenancePage";
+
+const MAINTENANCE_MODE = import.meta.env.VITE_MAINTENANCE_MODE === "true";
 
 const channels: { platform: Platform; description: string; action: string }[] = [
   { platform: "instagram", description: "A gallery of gifting inspiration.", action: "Follow on Instagram" },
@@ -124,6 +127,8 @@ export default function App() {
   const onUnavailable = (platform: Platform) => setOverlay(previous => ({
     kind: "social", platform, returnTo: previous?.kind === "collection" ? previous.collection : undefined,
   }));
+
+  if (MAINTENANCE_MODE) return <MaintenancePage />;
 
   return (
     <SocialProvider onUnavailable={onUnavailable}>
