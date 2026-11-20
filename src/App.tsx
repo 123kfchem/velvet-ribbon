@@ -7,6 +7,7 @@ import { platformNames, type Platform } from "./lib/social";
 import { collections, type Collection } from "./lib/collections";
 import MaintenancePage from "./components/MaintenancePage";
 import ContactSection from "./components/ContactSection";
+import GiftingSlider from "./components/GiftingSlider";
 
 const MAINTENANCE_MODE = import.meta.env.VITE_MAINTENANCE_MODE === "true";
 
@@ -82,10 +83,31 @@ function Collections({ onSelect }: { onSelect: (collection: Collection) => void 
           {collections.map(collection => (
             <button key={collection.id} className="collection-link" type="button" onClick={() => onSelect(collection)} aria-label={`Explore ${collection.title}`} aria-haspopup="dialog">
               <span className="collection-image"><img src={collection.image} alt={collection.alt} width="850" height="850" loading="lazy" /></span>
-              <span className="collection-meta"><span><span className="collection-name">{collection.title}</span><span className="collection-caption">{collection.caption}</span></span><span className="collection-arrow"><Arrow /></span></span>
+              <span className="collection-meta">
+                <span>
+                  <span className="collection-name">{collection.title}</span>
+                  <span className="collection-caption">{collection.caption}</span>
+                  <span className="collection-action">Explore Gifts<Arrow diagonal /></span>
+                </span>
+                <span className="collection-arrow" aria-hidden="true"><Arrow /></span>
+              </span>
             </button>
           ))}
         </div>
+        <details className="collection-credits">
+          <summary>Image credits and licenses</summary>
+          <ul>
+            {collections.filter(collection => collection.imageSource).map(collection => (
+              <li key={collection.id}>
+                <span>{collection.title}: {collection.imageCredit}</span>
+                {" — "}
+                <a href={collection.imageSource} target="_blank" rel="noopener noreferrer">Source</a>
+                {collection.imageLicenseUrl && <> · <a href={collection.imageLicenseUrl} target="_blank" rel="noopener noreferrer">{collection.imageLicense}</a></>}
+                {!collection.imageLicenseUrl && <> · {collection.imageLicense}</>}
+              </li>
+            ))}
+          </ul>
+        </details>
       </div>
     </section>
   );
@@ -135,7 +157,7 @@ export default function App() {
     <SocialProvider onUnavailable={onUnavailable}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Header />
-      <main id="main-content"><Hero /><SocialSection /><Collections onSelect={collection => setOverlay({ kind: "collection", collection })} /><OurStory /><ContactSection /></main>
+      <main id="main-content"><Hero /><GiftingSlider /><SocialSection /><Collections onSelect={collection => setOverlay({ kind: "collection", collection })} /><OurStory /><ContactSection /></main>
       <Footer />
       {overlay?.kind === "collection" && (
         <Dialog key="collection" className="collection-dialog" labelledBy="collection-dialog-title" onClose={close}>
@@ -144,7 +166,6 @@ export default function App() {
             <p className="eyebrow"><span className="fine-rule" />The Collection</p>
             <h2 id="collection-dialog-title">{overlay.collection.title}</h2>
             <p className="dialog-intro">{overlay.collection.description}</p>
-            <dl className="collection-notes">{overlay.collection.notes.map(([term, detail]) => <div key={term}><dt>{term}</dt><dd>{detail}</dd></div>)}</dl>
             <SocialLink platform="whatsapp" className="button button-green" message={`Hello Velvet Ribbon, I would love to enquire about ${overlay.collection.title.toLowerCase()}.`} label={`Enquire about ${overlay.collection.title} on WhatsApp`}><BrandIcon platform="whatsapp" />Enquire on WhatsApp<Arrow diagonal /></SocialLink>
           </div>
         </Dialog>
