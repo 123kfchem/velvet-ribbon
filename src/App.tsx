@@ -6,6 +6,7 @@ import Dialog from "./components/Dialog";
 import { platformNames, type Platform } from "./lib/social";
 import { collections, type Collection } from "./lib/collections";
 import MaintenancePage from "./components/MaintenancePage";
+import ContactSection from "./components/ContactSection";
 
 const MAINTENANCE_MODE = import.meta.env.VITE_MAINTENANCE_MODE === "true";
 
@@ -111,7 +112,7 @@ function Footer() {
       <div className="page-width">
         <div className="footer-main">
           <div className="footer-brand"><Wordmark footer /><p>The art of thoughtful gifting.</p></div>
-          <nav className="footer-nav" aria-label="Footer navigation"><h2 className="footer-label">Explore</h2><a href="#collections">Collections</a><a href="#our-story">Our Story</a><a href="#connect">Stay Connected</a></nav>
+          <nav className="footer-nav" aria-label="Footer navigation"><h2 className="footer-label">Explore</h2><a href="#collections">Collections</a><a href="#our-story">Our Story</a><a href="#connect">Stay Connected</a><a href="#contact">Contact</a></nav>
           <div className="footer-contact"><h2 className="footer-label">Gifting Enquiries</h2><FooterContactDetails /><SocialLink platform="whatsapp" className="text-link">Chat with our team<Arrow diagonal /></SocialLink></div>
           <div className="footer-social"><h2 className="footer-label">Follow Along</h2><div className="footer-icons">{channels.map(({ platform }) => <SocialLink key={platform} platform={platform} className="footer-icon"><BrandIcon platform={platform} /></SocialLink>)}</div></div>
         </div>
@@ -134,7 +135,7 @@ export default function App() {
     <SocialProvider onUnavailable={onUnavailable}>
       <a href="#main-content" className="skip-link">Skip to content</a>
       <Header />
-      <main id="main-content"><Hero /><SocialSection /><Collections onSelect={collection => setOverlay({ kind: "collection", collection })} /><OurStory /></main>
+      <main id="main-content"><Hero /><SocialSection /><Collections onSelect={collection => setOverlay({ kind: "collection", collection })} /><OurStory /><ContactSection /></main>
       <Footer />
       {overlay?.kind === "collection" && (
         <Dialog key="collection" className="collection-dialog" labelledBy="collection-dialog-title" onClose={close}>

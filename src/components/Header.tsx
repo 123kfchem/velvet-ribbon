@@ -7,6 +7,7 @@ const navigation = [
   { id: "collections", label: "Collections" },
   { id: "our-story", label: "Our Story" },
   { id: "connect", label: "Connect" },
+  { id: "contact", label: "Contact" },
 ];
 
 export default function Header() {
