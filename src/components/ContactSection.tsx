@@ -202,7 +202,7 @@ export default function ContactSection() {
             </div>
 
             {!isEmailJsConfigured && (
-              <p className="contact-setup-note">The email form is unavailable until EmailJS is configured. You can still reach us on WhatsApp.</p>
+              <p className="contact-setup-note">The email form is unavailable, you can still reach us on WhatsApp. Us we are working on it</p>
             )}
             {(formError || success) && (
               <p className={`contact-status ${formError ? "is-error" : "is-success"}`} role={formError ? "alert" : "status"} aria-live={formError ? "assertive" : "polite"}>
